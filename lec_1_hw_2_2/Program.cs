@@ -10,7 +10,18 @@ namespace lec_1_hw_2_2
     {
         static void Main(string[] args)
         {
-            int N = 0, M = 0;
+            int N, M;
+            InputData(out N, out M);
+            int[][] matrix = InitMatrix(N, M);
+            ShowMatrix(matrix);
+            int[] minimals = GetMinimalsInRows(matrix);
+            ShowReverseOfSortingMinimals(minimals);
+        }
+        
+        static void InputData(out int N, out int M)
+        {
+            N = 0;
+            M = 0;
             do
             {
                 try
@@ -27,6 +38,10 @@ namespace lec_1_hw_2_2
                     Console.WriteLine("Не корректное число!!!");
                 }
             } while (N <= 0 || M <= 0);
+        }        
+
+        static int[][] InitMatrix(int N, int M)
+        {
             int[][] matrix = new int[N][];
             for (int i = 0; i < N; i++)
                 matrix[i] = new int[M];
@@ -34,22 +49,35 @@ namespace lec_1_hw_2_2
             for (int i = 0; i < N; i++)
                 for (int j = 0; j < M; j++)
                     matrix[i][j] = rnd.Next(0, 999);
+            return matrix;
+        }
+
+        static void ShowMatrix(int[][] matrix)
+        {
             Console.WriteLine("Содержимое матрицы");
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < matrix.Length; i++)
             {
                 foreach (int j in matrix[i])
-                    Console.Write("{0,5:d}",j);
+                    Console.Write("{0,5:d}", j);
                 Console.WriteLine();
             }
-            int[] minimums = new int[N];
-            for (int i = 0; i < N; i++)
-                minimums[i] = matrix[i].Min();
-            Array.Sort(minimums);
+        }
+
+        static int[] GetMinimalsInRows(int [][] matrix)
+        {
+            int[] mins = new int[matrix.Length];
+            for (int i = 0; i < mins.Length; i++)
+                mins[i] = matrix[i].Min();
+            return mins;
+        }
+
+        static void ShowReverseOfSortingMinimals(int[] minimals)
+        {
+            Array.Sort(minimals);
             Console.WriteLine("Минимальные элементы строк матрицы в порядке убывания");
-            for (int i = minimums.Length - 1; i >= 0; i--)
-                Console.Write("{0,5:d}", minimums[i]);
+            for (int i = minimals.Length - 1; i >= 0; i--)
+                Console.Write("{0,5:d}", minimals[i]);
             Console.WriteLine();
         }
-                
     }
 }
